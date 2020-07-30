@@ -18,13 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0, 1)] float shootSoundVolume = 0.25f;
     [SerializeField] AudioClip shootSoundEffect = null;
 
-    [Header("Death Effect")]
-    [SerializeField] GameObject deathParticleEffects = null;
-    [SerializeField] float explosionDuration = 1f;
-
-    [Header("Sound Effects")]
-    [SerializeField] AudioClip deathSound = null;
-    [SerializeField] [Range(0, 1)] float deathSoundVolume = 0.75f;
+   
     #endregion
 
     Coroutine firedCoroutine;
@@ -113,18 +107,15 @@ public class Player : MonoBehaviour
     {
         health -= damage.GetDamage();
         damage.Hit();
-        if (health <= 0) { Die(); health = 0; }
+        if (health <= 0) 
+        { 
+            health = 0;
+            FindObjectOfType<Spaceship>().Die(gameObject);
+            FindObjectOfType<LevelLoader>().LoadGameOver();
+        }
     }
 
-    private void Die()
-    {
-        Destroy(gameObject);
-        GameObject explosion = Instantiate(deathParticleEffects, transform.position, transform.rotation);
-        Destroy(explosion, explosionDuration);
-        AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
-        FindObjectOfType<LevelLoader>().LoadGameOver();
-    }
-
+   
     public int GetHealth()
     {
         return health;

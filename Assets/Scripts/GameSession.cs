@@ -6,9 +6,11 @@ using UnityEngine;
 public class GameSession : MonoBehaviour
 {
     int score = 0;
+    [SerializeField] int numberOfEnemies = 0;
 
     private void Awake()
     {
+        numberOfEnemies = FindObjectOfType<EnemySpawner>().GetEnemyCount();
         SetUpSingleton();
     }
 
@@ -34,6 +36,11 @@ public class GameSession : MonoBehaviour
     public void AddToScore(int scoreVal)
     {
         score += scoreVal;
+    }
+
+    public void EnemyDestroyed()
+    {
+        numberOfEnemies--;
     }
 
     public void ResetGame()
