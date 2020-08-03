@@ -30,7 +30,7 @@ public class WaveConfig : ScriptableObject
 
     public float GetSpawnInterval() { return spawnInterval; }
 
-    public float GetRandomer() { return spawnRandomer; }
+    public float GetRandomer() { return spawnRandomer + spawnInterval; }
     
     public float GetMoveSpeed() { return movementSpeed; }
 

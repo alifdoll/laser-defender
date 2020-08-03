@@ -9,7 +9,6 @@ public class EnemyPathing : MonoBehaviour
     List<Transform> waypoints = null;
     int waypointIdx = 0;
 
-    
     void Start()
     {
         waypoints = waveConfig.GetWaypoints();
@@ -29,10 +28,11 @@ public class EnemyPathing : MonoBehaviour
 
     private void MoveEnemy()
     {
+        var movement = waveConfig.GetMoveSpeed() * Time.deltaTime;
         if (waypointIdx <= waypoints.Count - 1)
         {
             var targetPosition = waypoints[waypointIdx].transform.position;
-            var movement = waveConfig.GetMoveSpeed()* Time.deltaTime;
+            
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, movement);
 
             if (transform.position == targetPosition)
@@ -43,9 +43,20 @@ public class EnemyPathing : MonoBehaviour
 
         else
         {
-            var startingPoint = waypoints[0].transform.position;
-            transform.position = startingPoint;
-            waypointIdx = 0;
+            
+            if (tag == "Boss")
+            {
+                transform.position = Vector2.MoveTowards(transform.position, waypoints[0].transform.position, movement);
+                waypointIdx = 0;
+            }
+            else
+            {
+                var startingPoint = waypoints[0].transform.position;
+                transform.position = startingPoint;
+                waypointIdx = 0;
+            }
+           
         }
     }
+
 }

@@ -34,7 +34,17 @@ public class Player : MonoBehaviour
         SetUpMoveBoundaries();
     }
 
-   
+    private void SetupSingleton()
+    {
+        if(FindObjectsOfType<Player>().Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     void Update()
     {
@@ -92,7 +102,7 @@ public class Player : MonoBehaviour
         xMax = gameCam.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
 
         yMin = gameCam.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + padding;
-        yMax = gameCam.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
+        yMax = gameCam.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - (padding + 7);
 
     }
 

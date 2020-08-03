@@ -4,32 +4,65 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    List<WaveConfig>[] arrayOfWaves;
+    [Header("Waves")]
+    [SerializeField] List<WaveConfig> firstWave = null;
+    [SerializeField] List<WaveConfig> secondWave = null;
+    [SerializeField] List<WaveConfig> thirdWave = null;
+    [SerializeField] List<WaveConfig> bossWave = null;
 
-    [SerializeField] List<WaveConfig> waveConfigs = null;
-    [SerializeField] int startingWaveIndex = 0;
-    [SerializeField] bool looping = false;
-    int enemyNumber = 0;
+    [Header("Debugger")]
+    [SerializeField] int enemyNumber = 0;
+    [SerializeField] [Range(1,4)] int currentWaves = 1;
+    [SerializeField] int numberOfArray = 0;
 
-    
-    IEnumerator Start()
+
+
+    void Start()
     {
-        do{ yield return StartCoroutine(SpawnAllWaves());}
-        while (looping);
+        SetUpArrayOfWaves();
+        enemyNumber = GetEnemyNumInWave(arrayOfWaves[currentWaves]);
+        StartCoroutine(SpawnWave(arrayOfWaves[currentWaves]));
+        
     }
 
-    private IEnumerator SpawnAllWaves()
+    private void Update()
     {
-        for (int waveIdx = startingWaveIndex; waveIdx < waveConfigs.Count; waveIdx++)
+        if(currentWaves > numberOfArray)
         {
-            var currentWave = waveConfigs[waveIdx];
-            yield return StartCoroutine(SpawnAllEnemies(currentWave));
+            enemyNumber = 0;
+            FindObjectOfType<LevelLoader>().LoadPlayerWin();
+        }
+      
+
+        if (enemyNumber <= 0)
+        {
+            currentWaves++;
+            enemyNumber = GetEnemyNumInWave(arrayOfWaves[currentWaves]);
+            StartCoroutine(SpawnWave(arrayOfWaves[currentWaves]));
         }
     }
 
+    private void SetUpArrayOfWaves()
+    {
+        arrayOfWaves = new List<WaveConfig>[4]
+        {
+            firstWave,
+            secondWave,
+            thirdWave,
+            bossWave
+        };
+
+        numberOfArray = arrayOfWaves.Length;
+    }
+
+
+   
+
     private IEnumerator SpawnAllEnemies(WaveConfig waveConfig)
     {
-        enemyNumber = waveConfig.GetEnemyNumber();
-        for (int enemyCount = 1; enemyCount <= enemyNumber; enemyCount++)
+        int numberOfEnemy = waveConfig.GetEnemyNumber();
+        for (int enemyCount = 1; enemyCount <= numberOfEnemy; enemyCount++)
         {
             var enemy = Instantiate(
                 waveConfig.GetEnemyPrefab(),
@@ -42,14 +75,37 @@ public class EnemySpawner : MonoBehaviour
        
     }
 
-    public int GetEnemyCount()
+
+
+    private IEnumerator SpawnWave(List<WaveConfig> wave)
+    {
+        for (int waveIdx = 0; waveIdx < wave.Count; waveIdx++)
+        {
+            var currentWave = wave[waveIdx];
+            yield return StartCoroutine(SpawnAllEnemies(currentWave));
+        }
+    }
+
+
+    public int GetEnemyNumInWave(List<WaveConfig> waveList)
     {
         int enemyNumber = 0;
-        foreach(WaveConfig waves in waveConfigs)
+        foreach(WaveConfig waves in waveList)
         {
             enemyNumber += waves.GetEnemyNumber();
         }
         return enemyNumber;
+    }
+
+   
+
+    public void EnemyDecreased()
+    {
+        enemyNumber--;
+        if(enemyNumber <= 0)
+        {
+            //FindObjectOfType<LevelLoader>().LoadNextLevel();
+        }
     }
 
 }

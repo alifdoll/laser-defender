@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5448444255994396465}
   m_Layer: 9
   m_Name: Green_Plane
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

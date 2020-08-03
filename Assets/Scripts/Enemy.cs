@@ -19,12 +19,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] [Range(0, 1)] float shootSoundVolume = 0.25f;
     [SerializeField] AudioClip shootSoundEffect = null;
 
+    GameSession gameSession = null;
   
     #endregion
 
     void Start()
     {
         shotCounter = UnityEngine.Random.Range(minShotsInterval, maxShotsInterval);
+        gameSession = FindObjectOfType<GameSession>();
     }
 
     
@@ -67,8 +69,8 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             FindObjectOfType<Spaceship>().Die(gameObject);
-            FindObjectOfType<GameSession>().AddToScore(scoreValue);
-            FindObjectOfType<GameSession>().EnemyDestroyed();
+            FindObjectOfType<EnemySpawner>().EnemyDecreased();
+            gameSession.AddToScore(scoreValue);
         }
     }
 }

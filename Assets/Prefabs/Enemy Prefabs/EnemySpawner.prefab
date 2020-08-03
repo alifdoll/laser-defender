@@ -43,7 +43,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88bf9a00b67932438d3fec73fcbe775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveConfigs:
+  firstWave:
   - {fileID: 11400000, guid: bfff9777d9f13b741bf8ad75a5d4e334, type: 2}
-  startingWaveIndex: 0
-  looping: 0
+  - {fileID: 11400000, guid: 9d66305b7682b7b45814936e9c239093, type: 2}
+  - {fileID: 11400000, guid: 0a7f2dab60eed0a40ae807a10dde42f5, type: 2}
+  secondWave:
+  - {fileID: 11400000, guid: 0a7f2dab60eed0a40ae807a10dde42f5, type: 2}
+  - {fileID: 11400000, guid: 1f12b85b52338f9489a496644b0453c6, type: 2}
+  - {fileID: 11400000, guid: a615522cde814d643ab7451678565c43, type: 2}
+  thirdWave:
+  - {fileID: 11400000, guid: 1f12b85b52338f9489a496644b0453c6, type: 2}
+  - {fileID: 11400000, guid: a615522cde814d643ab7451678565c43, type: 2}
+  - {fileID: 11400000, guid: 22516576272f81a41a0ff050c9f1ebf5, type: 2}
+  bossWave:
+  - {fileID: 11400000, guid: 72d4cd63496fe374599e8b3fdaf3a5fe, type: 2}
+  - {fileID: 11400000, guid: 9d66305b7682b7b45814936e9c239093, type: 2}
+  - {fileID: 11400000, guid: bfff9777d9f13b741bf8ad75a5d4e334, type: 2}
+  - {fileID: 11400000, guid: 1f12b85b52338f9489a496644b0453c6, type: 2}
+  enemyNumber: 0
+  numberOfArray: 0
+  currentWaves: 0
